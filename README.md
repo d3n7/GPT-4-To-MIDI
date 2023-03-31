@@ -1,7 +1,7 @@
 # GPT-4-To-MIDI-Music
 Text prompt to MIDI File using OpenAI's GPT-4
 
-Since GPT-4 is apparently trained on musical data, I made this simple script to convert text prompts into short melodies and then MIDI files.
+Since GPT-4 is apparently trained on musical data, I made this script to convert text prompts into short melodies and then MIDI files.
 
 # Dependencies:
 ```pip install openai midiutil```
