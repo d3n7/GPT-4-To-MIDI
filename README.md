@@ -7,7 +7,7 @@ Text prompt to MIDI File using OpenAI's GPT-4. For now it's monophonic.
 # Usage:
 Ask it in plain english to generate, including any musical details that you want.
 
-```python g2m.py -p "Exciting arpeggios in D minor pentatonic, 4 measures"```
+```python g2m.py -p "Really fast pentatonic piano sweep. Use 32nd notes. Make it as long as you can."```
 ```  -h, --help            show this help message and exit
   -p PROMPT, --prompt PROMPT
                         specify prompt to use (default: Jazz!)
