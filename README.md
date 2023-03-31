@@ -13,4 +13,4 @@ Since GPT-4 is apparently trained on musical data, I made this simple script to 
   -o OUTPUT, --output OUTPUT
                         specify output directory (default: current)
   -a AUTH, --auth AUTH  specify openai api key (edit this script file to set a
-                        default)```
+                        default)
