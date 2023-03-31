@@ -1,5 +1,5 @@
 # GPT-4 To MIDI
-Text prompt to MIDI File using OpenAI's GPT-4
+Text prompt to MIDI File using OpenAI's GPT-4. For now it's monophonic.
 
 # Dependencies:
 ```pip install openai midiutil```
