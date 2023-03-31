@@ -23,8 +23,7 @@ Output:
 
 https://user-images.githubusercontent.com/29033313/229198071-ef964ea9-958e-4fb1-921c-9428b74f2261.mp4
 
-
-```python g2m.py -p "Really fast pentatonic piano sweep. Use 32nd notes. Make it as long as you can."```
+Full options:
 ```  -h, --help            show this help message and exit
   -p PROMPT, --prompt PROMPT
                         specify prompt to use (default: Jazz!)
