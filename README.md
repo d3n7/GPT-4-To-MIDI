@@ -12,6 +12,14 @@ Ask it in plain english to generate, including any musical details that you want
 
 Input:
 
+```python g2m.py -p "Plan out a romantic chord progressoin. Arpeggiate each full chord for one bar with 8th and 16th notes."```
+
+Output:
+
+https://user-images.githubusercontent.com/29033313/229306944-fa8be2db-75f1-449b-a4a1-e9885eeb7e75.mp4
+
+Input:
+
 ```python g2m.py -p "jazzy pentatonic, meandering up and down, rhythmic variation, syncopated, over 100 notes total. Plan the chord progression beforehand."```
 
 Output:
