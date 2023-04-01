@@ -18,6 +18,20 @@ Output:
 
 https://user-images.githubusercontent.com/29033313/229316684-028d2e55-9f4e-4a0e-a47a-a99452d9d14f.mp4
 
+Input:
+
+```
+python g2m.py -p "twinkle twinkle little star" -c
+[*] Parsing content
+[*] Wrote the MIDI file.
+
+Next prompt> Tranpose it to A minor
+```
+
+Output:
+
+https://user-images.githubusercontent.com/29033313/229319912-6b3ec70c-d77b-4e6e-a537-41a9c5aeabc6.mp4
+
 Full options:
 ```test
   -h, --help            show this help message and exit
