@@ -29,5 +29,5 @@ Full options:
                         specify prompt to use (default: Jazz!)
   -o OUTPUT, --output OUTPUT
                         specify output directory (default: current)
-  -a AUTH, --auth AUTH  specify openai api key (edit this script file to set a
-                        default)
+  -a AUTH, --auth AUTH  specify openai api key (edit this script file to set a default)
+  -n NUM, --num NUM     generate n number of outputs and merge them (context unaware)
