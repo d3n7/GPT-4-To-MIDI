@@ -33,12 +33,12 @@ Output:
 https://user-images.githubusercontent.com/29033313/229319912-6b3ec70c-d77b-4e6e-a537-41a9c5aeabc6.mp4
 
 Full options:
-```test
+```
   -h, --help            show this help message and exit
   -p PROMPT, --prompt PROMPT
                         specify prompt to use (default: Jazz!)
+  -c, --chat            send follow up messages to make revisions, continuations, etc. (type 'exit' to quit)
   -m, --mono            alternative system to generate monophonic MIDI outputs
   -o OUTPUT, --output OUTPUT
                         specify output directory (default: current)
   -a AUTH, --auth AUTH  specify openai api key (edit this script file to set a default)
-  -n NUM, --num NUM     generate n number of outputs and merge them (context unaware)
