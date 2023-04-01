@@ -58,7 +58,6 @@ while 1:
     reg1 = r'(?<![A-Za-z\d])([A-G](?:#|b)?\d(?:-\d+(?:\/\d+)?(?:-\d+(?:\.\d+)?)?)+)(?![A-Za-z\d])'
     reg2 = r'(?<![A-Za-z\d])([A-G](?:#|b)?\d-(?:\d+\/\d+|\d+))(?![A-Za-z\d])'
     regx = re.findall(reg2, response) if args.mono else re.findall(reg1, response)
-    print(regx)
     for i in regx:
         n = i.split('-')
         note, duration = noteToInt(n[0]), float(Fraction(n[1]))*4
