@@ -6,11 +6,12 @@ import openai
 #settings
 openaiKey = '<YOUR API KEY HERE>'
 sys1 = 'You are MusicGPT, a music creation and completion chat bot that. When a user gives you a prompt,' \
-          ' you return them a song showing the notes, durations, and times that they occur. Respond only with the music.' \
-          '\n\nNotation looks like this:\n(Note-duration-time in beats)\nC4-1/4-0, E4-1/4-2.5, D4-1/4-3, F4-1/4-3 etc.'
+          ' you return them a song showing the notes, durations, and times that they occur. Respond with just the music.' \
+          '\n\nNotation looks like this:\n(Note-duration in beats-time in beats)\nC4-1-0, Eb4-0.5-2.5, D4-1-3, F4-1-3 etc.'
+          #'\nRather than writing out chord names, such as Cmaj7-1/4-5, spell out each note in the same format as every other note.'
 sys2 = 'You are MusicGPT, a music creation and completion chat bot that. When a user gives you a prompt,' \
          'you return them a melody showing the notes and the rhythms. Respond only with the music.' \
-         '\n\nNotation looks like this:\nC5-1/4, E5 1/2 etc.'
+         '\n\nNotation looks like this:\nC5-1/4, E5-1/2 etc.'
 system = sys1
 
 #environment
@@ -20,6 +21,7 @@ path = os.path.realpath(os.path.dirname(__file__))
 parser = argparse.ArgumentParser()
 parser.add_argument('-p', '--prompt', help='specify prompt to use (default: Jazz!)', default='Jazz!')
 parser.add_argument('-c', '--chat', help='send follow up messages to make revisions, continuations, etc. (type \'exit\' to quit)', action='store_true')
+parser.add_argument('-v', '--verbose', help='display GPT-4 output', action='store_true')
 parser.add_argument('-m', '--mono', help='alternative system to generate monophonic MIDI outputs', action='store_true')
 parser.add_argument('-o', '--output', help='specify output directory (default: current)', default=path)
 parser.add_argument('-a', '--auth', help='specify openai api key (edit this script file to set a default)', default=openaiKey)
@@ -49,23 +51,26 @@ while 1:
         messages = history
     )
     response = r['choices'][0]['message']['content']
+    if args.verbose:
+        print('\n'+response+'\n')
     history.append({'role': 'assistant', 'content': response})
 
     #parse content
     print('[*] Parsing content')
     noteInfo = []
     #thanks GPT-4 for this monstrosity of regex that seems to work
-    reg1 = r'(?<![A-Za-z\d])([A-G](?:#|b)?\d(?:-\d+(?:\/\d+)?(?:-\d+(?:\.\d+)?)?)+)(?![A-Za-z\d])'
+    #reg1 = r'(?<![A-Za-z\d])([A-G](?:#|b)?\d(?:-\d+(?:\/\d+)?(?:-\d+(?:\.\d+)?)?)+)(?![A-Za-z\d])'
+    reg1 = r'(?<![A-Za-z\d])([A-G](?:#|b)?\d-\d+(?:\.\d+)?-\d+(?:\.\d+)?)(?![A-Za-z\d])'
     reg2 = r'(?<![A-Za-z\d])([A-G](?:#|b)?\d-(?:\d+\/\d+|\d+))(?![A-Za-z\d])'
     regx = re.findall(reg2, response) if args.mono else re.findall(reg1, response)
     for i in regx:
         n = i.split('-')
-        note, duration = noteToInt(n[0]), float(Fraction(n[1]))*4
-        time = None if len(n) == 2 else float(n[2])
+        note = noteToInt(n[0])
+        duration = float(Fraction(n[1])) if args.mono else float(n[1])
+        time = None if args.mono else float(n[2])
         noteInfo.append([note, duration, time])
 
     #make midi
-    print('[*] Generating MIDI...')
     melody = MIDIFile(1, deinterleave=False)
     track = 0
     channel = 0
@@ -85,7 +90,8 @@ while 1:
 
     #break loop or get next prompt
     if args.chat:
-        prompt = input('Next prompt> ')
+        prompt = input('\nNext prompt> ')
+        print('\n')
         if prompt == 'exit':
             break
         else:
