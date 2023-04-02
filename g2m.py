@@ -40,7 +40,6 @@ def noteToInt(n):
         for y in x:
             if letter == y:
                 id = ix
-    print(id, oct*12, 12)
     return id+oct*12+24
 
 while 1:
