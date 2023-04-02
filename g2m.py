@@ -4,10 +4,10 @@ from midiutil.MidiFile import MIDIFile
 import openai
 
 #settings
-openaiKey = '<YOUR API KEY HERE>'
+openaiKey = '<YOUR API KEY>'
 sys1 = 'You are MusicGPT, a music creation and completion chat bot that. When a user gives you a prompt,' \
           ' you return them a song showing the notes, durations, and times that they occur. Respond with just the music.' \
-          '\n\nNotation looks like this:\n(Note-duration in beats-time in beats)\nC4-1-0, Eb4-0.5-2.5, D4-1-3, F4-1-3 etc.'
+          '\n\nNotation looks like this:\n(Note-duration-time in beats)\nC4-1/4-0, Eb4-1/8-2.5, D4-1/4-3, F4-1/4-3 etc.'
           #'\nRather than writing out chord names, such as Cmaj7-1/4-5, spell out each note in the same format as every other note.'
 sys2 = 'You are MusicGPT, a music creation and completion chat bot that. When a user gives you a prompt,' \
          'you return them a melody showing the notes and the rhythms. Respond only with the music.' \
@@ -40,7 +40,7 @@ def noteToInt(n):
         for y in x:
             if letter == y:
                 id = ix
-    return id+oct*12+12
+    return id+oct*12+24
 
 while 1:
     #openai request
@@ -59,14 +59,14 @@ while 1:
     print('[*] Parsing content')
     noteInfo = []
     #thanks GPT-4 for this monstrosity of regex that seems to work
-    #reg1 = r'(?<![A-Za-z\d])([A-G](?:#|b)?\d(?:-\d+(?:\/\d+)?(?:-\d+(?:\.\d+)?)?)+)(?![A-Za-z\d])'
-    reg1 = r'(?<![A-Za-z\d])([A-G](?:#|b)?\d-\d+(?:\.\d+)?-\d+(?:\.\d+)?)(?![A-Za-z\d])'
+    reg1 = r'(?<![A-Za-z\d])([A-G](?:#|b)?\d(?:-\d+(?:\/\d+)?(?:-\d+(?:\.\d+)?)?)+)(?![A-Za-z\d])'
+    #reg1 = r'(?<![A-Za-z\d])([A-G](?:#|b)?\d-\d+(?:\.\d+)?-\d+(?:\.\d+)?)(?![A-Za-z\d])'
     reg2 = r'(?<![A-Za-z\d])([A-G](?:#|b)?\d-(?:\d+\/\d+|\d+))(?![A-Za-z\d])'
     regx = re.findall(reg2, response) if args.mono else re.findall(reg1, response)
     for i in regx:
         n = i.split('-')
         note = noteToInt(n[0])
-        duration = float(Fraction(n[1])) if args.mono else float(n[1])
+        duration = float(Fraction(n[1]))# if args.mono else float(n[1])
         time = None if args.mono else float(n[2])
         noteInfo.append([note, duration, time])
 
@@ -78,7 +78,7 @@ while 1:
     time = 0
     for i in noteInfo:
         pitch = i[0]
-        dur = i[1]
+        dur = i[1]*4
         if not args.mono:
             time = i[2]
         melody.addNote(track, channel, pitch, time, dur, volume)
