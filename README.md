@@ -12,6 +12,25 @@ Ask it in plain english to generate, including any musical details that you want
 
 Input:
 
+```
+python g2m.py -p "Full piece of melancholy music with multiple parts. Plan out the structure beforehand, including chords, parts (soprano, alto, tenor, bass), meter, etc." -c
+[*] Making request to OpenAI API
+[*] Parsing content
+[*] Wrote the MIDI file.
+
+Next prompt> Keep it Eb instead of E for the second note 
+
+...
+
+Next prompt> Write a simple soprano melody in the high octave range that fits over this piece.
+```
+
+Output:
+
+https://user-images.githubusercontent.com/29033313/229352561-a0b16078-4d5b-4381-b433-673d38d4d987.mp4
+
+Input:
+
 ```python g2m.py -p "Full piece by Mozart with multiple parts. Plan out the structure beforehand, including chords, parts (soprano, alto, tenor, bass), meter, etc. Over 400 notes total."```
 
 Output:
