@@ -40,7 +40,7 @@ def noteToInt(n):
         for y in x:
             if letter == y:
                 id = ix
-    return id+oct*12+24
+    return id+oct*12+12
 
 while 1:
     #openai request
