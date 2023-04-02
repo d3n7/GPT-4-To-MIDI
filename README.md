@@ -56,8 +56,11 @@ Full options:
   -h, --help            show this help message and exit
   -p PROMPT, --prompt PROMPT
                         specify prompt to use (default: Jazz!)
-  -c, --chat            send follow up messages to make revisions, continuations, etc. (type 'exit' to quit)
+  -c, --chat            send follow up messages to make revisions,
+                        continuations, etc. (type 'exit' to quit)
+  -v, --verbose         display GPT-4 output
   -m, --mono            alternative system to generate monophonic MIDI outputs
   -o OUTPUT, --output OUTPUT
                         specify output directory (default: current)
-  -a AUTH, --auth AUTH  specify openai api key (edit this script file to set a default)
+  -a AUTH, --auth AUTH  specify openai api key (edit this script file to set a
+                        default)
