@@ -5,7 +5,7 @@ Text prompt to MIDI File using OpenAI's GPT-4. Now with polyphony!.
 
 
 # Dependencies:
-```pip install openai midiutil```
+```pip install openai midiutil mido```
 
 # Usage:
 Ask it in plain english to generate, including any musical details that you want.
