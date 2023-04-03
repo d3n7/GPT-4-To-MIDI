@@ -58,6 +58,7 @@ Full options:
                         specify prompt to use (default: Jazz!)
   -c, --chat            send follow up messages to make revisions,
                         continuations, etc. (type 'exit' to quit)
+  -l LOAD, --load LOAD  load a MIDI file to be appended to your prompt
   -v, --verbose         display GPT-4 output
   -m, --mono            alternative system to generate monophonic MIDI outputs
   -o OUTPUT, --output OUTPUT
