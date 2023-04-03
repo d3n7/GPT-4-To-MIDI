@@ -1,7 +1,7 @@
 import os, requests, argparse, re
 from fractions import Fraction
 from midiutil.MidiFile import MIDIFile
-import openai
+import openai, mido
 
 #settings
 openaiKey = '<YOUR API KEY>'
@@ -21,6 +21,7 @@ path = os.path.realpath(os.path.dirname(__file__))
 parser = argparse.ArgumentParser()
 parser.add_argument('-p', '--prompt', help='specify prompt to use (default: Jazz!)', default='Jazz!')
 parser.add_argument('-c', '--chat', help='send follow up messages to make revisions, continuations, etc. (type \'exit\' to quit)', action='store_true')
+parser.add_argument('-l', '--load', help='load a MIDI file to be appended to your prompt')
 parser.add_argument('-v', '--verbose', help='display GPT-4 output', action='store_true')
 parser.add_argument('-m', '--mono', help='alternative system to generate monophonic MIDI outputs', action='store_true')
 parser.add_argument('-o', '--output', help='specify output directory (default: current)', default=path)
@@ -30,11 +31,11 @@ if args.mono:
     system = sys2
 
 #other vars n functions
-history = [{'role': 'system', 'content': system}, {'role': 'user', 'content': args.prompt}]
+notes = [['C'], ['Db', 'C#'], ['D'], ['Eb', 'D#'], ['E'], ['F'], ['Gb', 'F#'], ['G'], ['Ab', 'G#'], ['A'], ['Bb', 'A#'], ['B']]
+
 def noteToInt(n):
     oct = int(n[-1])
     letter = n[:-1]
-    notes = [['C'], ['Db', 'C#'], ['D'], ['Eb', 'D#'], ['E'], ['F'], ['Gb', 'F#'], ['G'], ['Ab', 'G#'], ['A'], ['Bb', 'A#'], ['B']]
     id = 0
     for ix, x in enumerate(notes):
         for y in x:
@@ -42,6 +43,35 @@ def noteToInt(n):
                 id = ix
     return id+oct*12+12
 
+def midiToStr(mPath):
+    midIn = mido.MidiFile(os.path.expanduser(mPath))
+    ticks = midIn.ticks_per_beat
+    midOut = []
+    globalT = 0
+    opens = {}
+    for track in midIn.tracks:
+        for msg in track:
+            if msg.type == 'note_on' or msg.type == 'note_off':
+                globalT += msg.time/ticks
+                if msg.note in opens:
+                    noteDur = opens[msg.note]
+                    noteDur = int(noteDur) if noteDur.is_integer() else noteDur
+                    midOut.append("-".join([notes[msg.note%12][0]+str(msg.note//12-1), str(Fraction((globalT-opens[msg.note])/4)), str(noteDur)]))
+                    del opens[msg.note]
+                if msg.type == 'note_on':
+                    opens[msg.note] = globalT
+    return '\n'+', '.join(midOut)+'\n'
+
+prompt = args.prompt
+if args.load:
+    try:
+        prompt += midiToStr(args.load)
+    except:
+        print("[!] There was an error parsing your MIDI file.")
+        exit()
+history = [{'role': 'system', 'content': system}, {'role': 'user', 'content': prompt}]
+
+# main loop
 while 1:
     #openai request
     print('[*] Making request to OpenAI API')
