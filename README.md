@@ -1,5 +1,5 @@
 # GPT-4 To MIDI
-Text prompt to MIDI File using OpenAI's GPT-4. Now with polyphony!.
+Text prompt to MIDI File using OpenAI's GPT-4. Now with polyphony and MIDI input!
 
 <img width="637" alt="Screen Shot 2023-04-01 at 9 57 21 AM" src="https://user-images.githubusercontent.com/29033313/229273576-7c0b9313-ca48-4c9a-8a37-8989176c8dec.png">
 
