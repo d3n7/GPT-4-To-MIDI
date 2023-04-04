@@ -4,7 +4,7 @@ from midiutil.MidiFile import MIDIFile
 import openai, mido
 
 #settings
-openaiKey = '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'
+openaiKey = '<YOUR API KEY>'
 system = 'You are MusicGPT, a music creation and completion chat bot that. When a user gives you a prompt,' \
           ' you return them a song showing the notes, durations, and times that they occur. Respond with just the music.' \
          '\n\nNotation looks like this:\n(Note-duration-time in beats)\nC4-1/4-0, Eb4-1/8-2.5, D4-1/4-3, F4-1/4-3 etc.'
