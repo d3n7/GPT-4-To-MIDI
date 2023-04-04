@@ -60,7 +60,6 @@ Full options:
                         continuations, etc. (type 'exit' to quit)
   -l LOAD, --load LOAD  load a MIDI file to be appended to your prompt
   -v, --verbose         display GPT-4 output
-  -m, --mono            alternative system to generate monophonic MIDI outputs
   -o OUTPUT, --output OUTPUT
                         specify output directory (default: current)
   -a AUTH, --auth AUTH  specify openai api key (edit this script file to set a
