@@ -4,7 +4,7 @@ from midiutil.MidiFile import MIDIFile
 import openai, mido
 
 #settings
-openaiKey = '<YOUR API KEY>'
+openaiKey = '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'
 system = 'You are MusicGPT, a music creation and completion chat bot that. When a user gives you a prompt,' \
           ' you return them a song showing the notes, durations, and times that they occur. Respond with just the music.' \
          '\n\nNotation looks like this:\n(Note-duration-time in beats)\nC4-1/4-0, Eb4-1/8-2.5, D4-1/4-3, F4-1/4-3 etc.'
@@ -50,10 +50,10 @@ def midiToStr(mPath):
                 globalT += msg.time/ticks
                 if msg.note in opens:
                     noteTime = opens[msg.note]
-                    noteTime = str(int(noteTime)) if noteTime.is_integer() else str(noteTime)
+                    noteTime = int(noteTime) if noteTime.is_integer() else noteTime
                     noteDur = str(Fraction((globalT-noteTime)/4))
-                    noteDur = str(round((globalT-noteTime),3)) if len(notDur)>=6 else noteDur
-                    midOut.append("-".join([notes[msg.note%12][0]+str(msg.note//12-1), noteDur, noteTime]))
+                    noteDur = str(round((globalT-noteTime),3)) if len(noteDur)>=6 else noteDur
+                    midOut.append("-".join([notes[msg.note%12][0]+str(msg.note//12-1), noteDur, str(noteTime)]))
                     del opens[msg.note]
                 if msg.type == 'note_on':
                     opens[msg.note] = globalT
@@ -61,11 +61,11 @@ def midiToStr(mPath):
 
 prompt = args.prompt
 if args.load:
-    try:
-        prompt += midiToStr(args.load)
-    except:
+    #try:
+    prompt += midiToStr(args.load)
+    '''except:
         print("[!] There was an error parsing your MIDI file. Make sure the path is correct.")
-        exit()
+        exit()'''
 
 history = [{'role': 'system', 'content': system}, {'role': 'user', 'content': prompt}]
 
